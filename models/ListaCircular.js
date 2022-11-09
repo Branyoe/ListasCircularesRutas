@@ -1,4 +1,4 @@
-class ListaCircular {
+class Ruta {
   constructor() {
     this.primero = null;
   }
@@ -48,26 +48,7 @@ class ListaCircular {
     return ciclo(this.primero, this.primero)
   }
 
-  actual() {
-    return this.primero;
-  }
-  cambiarActual() {
-    this.primero = this.primero.sig;
-  }
-  extraerActual() {
-    let aux = this.primero;
-    if (this.primero == null)
-      return null;
-    else if (this.primero.sig == this.primero)
-      this.primero = null;
-    else {
-      this.primero.ant.sig = aux.sig;
-      this.primero.sig.ant = aux.ant;
-      this.primero = aux.sig;
-    }
-    return aux;
-  }
-  listar() {
+  imprimir() {
     let res = "";
     let temp = this.primero;
     if (!this.primero) return;
@@ -77,6 +58,30 @@ class ListaCircular {
     } while (temp != this.primero)
     return res;
   }
+
+  recorrido(baseInicio, horaInicio, minutoInicio, horaFin, minutoFin){
+    let inicio = this.buscar(baseInicio);
+    let res = "";
+    let temp = inicio;
+    let hora = horaInicio;
+    let min = minutoInicio;
+    let vuelta = 0;
+    
+    console.log("\nBase inicio: " + inicio.nombre);
+    console.log(`Inicio: ${horaInicio}:${minutoInicio}`);
+    console.log(`Fin: ${horaFin}:${minutoFin}\n\n`);
+    do {
+      res += `base: ${temp.nombre}, ${hora}:${min}\n\n`;
+      let dif = temp.sig.minutos - temp.minutos < 0 ? temp.sig.minutos - temp.minutos + 60 : temp.sig.minutos - temp.minutos
+      temp = temp.sig;
+      min += dif
+      if(min > 59){
+        hora++;
+        min-=60;
+      }
+    } while (hora != horaFin || min <= minutoFin)
+    return res;
+  }
 }
 
-export default ListaCircular;
+export default Ruta;
